@@ -28,6 +28,9 @@ url="https://bce.pusan.ac.kr/bce/50178/subview.do"
 BEdd=[]#BE전공분야
 BEii=[]#BE전공개요
 BEss=[]#BE진로
+DSdd=[]#DS전공분야
+DSii=[]#DS전공개요
+DSss=[]#DS진로
 
 def get_data(url) :
     response=requests.get(url)
@@ -49,6 +52,21 @@ def get_data(url) :
       BEstyle=BEmenu.find_all("ul")
       for i in BEstyle :
         BEss.append(i.get_text().strip())
+        
+      DSmenu=soup.find("div", attrs={'id':'menu50178_obj21'})
+      DSstyle=DSmenu.find("ul")
+      DSintro=DSstyle.find_all("span")
+      for i in DSintro:
+         DSii.append(i.get_text().strip())
+
+      DSmenu=soup.find("div", attrs={'id':'menu50178_obj21'})
+      DSdom=DSmenu.find("ol")
+      DSdd.append(DSdom.get_text().strip())
+
+      DSmenu=soup.find("div", attrs={'id':'menu50178_obj21'})
+      DSstyle=DSmenu.find_all("ul")
+      for i in DSstyle :
+        DSss.append(i.get_text().strip())
 
     else :
       print('연결되지 않음.')
@@ -65,4 +83,10 @@ if k == 'BE':
     print(f'<전공개요> {i}')
     print(f'<진로 및 취업> {BEss[3]}')
   for i in BEdd : 
+    print(f'<전공분야>\n{i}')
+elif k == 'DS':
+  for i in DSii:
+    print(f'<전공개요> {i}')
+    print(f'<진로 및 취업> {DSss[4]}')
+  for i in DSdd : 
     print(f'<전공분야>\n{i}')
